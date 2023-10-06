@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jason Hensley | CentOS/RHEL 7 Boot Process Overview and Troubleshooting</title>
+  
+  <link rel="stylesheet" href="/assets/css/post.css" />
+  <link rel="stylesheet" href="/assets/css/syntax.css" />
+  
+  <link rel="stylesheet" href="/assets/css/common.css" />
+  <script src="/assets/js/categories.js"></script>
+  
+  <script defer src="/assets/js/lbox.js"></script>
+  
+</head>
+
+  <body>
+    <main>
+      <header>
+  <a class="site-title" href="/">Jason Hensley</a>
+</header>
+
+      <section class="article">
+        <div class="article-header">
+          <h2 class="article-title">CentOS/RHEL 7 Boot Process Overview and Troubleshooting</h2>
+          <small class="date">06 Oct 2023</small>
+          <div class="categories">
+            
+            <a href="#!" class="category">documentation</a>
+            
+            <a href="#!" class="category">linux</a>
+            
+            <a href="#!" class="category">guide</a>
+            
+            <a href="#!" class="category">troubleshooting</a>
+            
+          </div>
+        </div>
+        <div class="content"><p>In this article, we will go over the boot process for CentOS/RHEL 7 systems, sharing some troubleshooting tips along the way. When I initially wrote this article, this was a fairly new change and one I felt that others could benefit from reading.</p>
+
+<p>In 2017 shared this with <a href="https://www.vultr.com/docs/centos-7-and-rhel-7-boot-process-overview-and-troubleshooting/">Vultr</a> for them to publish on their documentation site in the hopes that it would be useful to someone, so with this still in mind, I have decided to publish on my personal blog as well.</p>
+
+<h1 id="high-level-overview">High level overview</h1>
+<hr />
+<ul>
+  <li>Power + post.</li>
+  <li>Firmware device search.</li>
+  <li>Firmware reads bootloader.</li>
+  <li>Boot loader loads config (grub2).</li>
+  <li>Boot loader loads kernel and initramfs.</li>
+  <li>Boot loader passes control to the kernel.</li>
+  <li>Kernel initializes hardware + executes /sbin/init as pid 1.</li>
+  <li>Systemd executes all initrd targets (mounts filesystem on /sysroot).</li>
+  <li>Kernel root FS switched from initramfs root (/sysroot) to system rootfs (/) and systemd re-executes as system version.</li>
+  <li>Systemd looks for default target and starts/stops units as configured while automatically solving dependencies and login page appears.</li>
+</ul>
+
+<h1 id="systemd-targets">Systemd Targets</h1>
+<hr />
+<p>Targets are basically dependency checks. They have a “before” and “after” configuration for exactly what services are required to meet that target. For example: <code class="language-plaintext highlighter-rouge">arp.ethernet.service</code>, <code class="language-plaintext highlighter-rouge">firewalld.service</code>, and so forth need to be started and working before <code class="language-plaintext highlighter-rouge">network.target</code> can be reached. If it is not reached, services such as <code class="language-plaintext highlighter-rouge">httpd</code>, <code class="language-plaintext highlighter-rouge">nfs</code>, and <code class="language-plaintext highlighter-rouge">ldap</code> cannot be started.</p>
+
+<p>There are 4 targets that can be set in RHEL/CentOS 7:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">systemd.target</th>
+      <th style="text-align: left">description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">graphical.target</td>
+      <td style="text-align: left">GUI interface</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">multi-user.target</td>
+      <td style="text-align: left">multi user mode, text based login</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">rescue.target</td>
+      <td style="text-align: left">sulogin prompt, basic system initialization</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">emergency.target</td>
+      <td style="text-align: left">sulogin prompt, initramfs pivot complete and system root mounted on <code class="language-plaintext highlighter-rouge">/</code> as read only</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To view the current default boot target, use the following:</p>
+
+<p><code class="language-plaintext highlighter-rouge">systemctl get-default</code></p>
+
+<p>Keep in mind, you can change this at run-time by isolating the target. This will start/stop all services associated with the new target, so use caution (see <code class="language-plaintext highlighter-rouge">systemctl isolate new.target</code>).</p>
+
+<h1 id="single-user-mode">Single User Mode</h1>
+<hr />
+<p>There are times when you will need to boot into single user mode to fix an issue with the operating system. For this example, I will show you how to use the <code class="language-plaintext highlighter-rouge">rescue.target</code> which is “single user mode” on RHEL/CentOS 7.</p>
+
+<ol>
+  <li>Interrupt the grub2 menu by pressing “e” to edit</li>
+  <li>Find the line that specifies the kernel version <strong>vmlinuz</strong> and append the following to it: <code class="language-plaintext highlighter-rouge">systemd.unit=rescue.target</code></li>
+  <li>Enter “ctrl+x” to start</li>
+  <li>You will then be prompted to enter the root password to continue, once you exit the rescue shell the boot process will continue to load your
+default target.</li>
+</ol>
+
+<h1 id="recovering-the-root-password">Recovering the Root Password</h1>
+<hr />
+<p>This process is a little different that what we have used in past releases, but its a simple task and requires very few steps to do so. If you need to recover any credentials, you can use this method for gaining access to a VM. You can still boot off of a live CD, mount the root filesystem, and edit the password, but that method is dated and requires more effort.</p>
+
+<ol>
+  <li>Reboot the system.</li>
+  <li>Interrupt the grub2 menu by pressing “e” to edit</li>
+  <li>Move the cursor to the end of the kernel line <strong>vmlinuz</strong> (you may want to remove all other consoles other than TTY0 if available)</li>
+  <li>Append <code class="language-plaintext highlighter-rouge">rd.break</code> which will break the boot process just before the control is handed from initramfs to the actual system</li>
+  <li>Enter “ctrl+x” to boot</li>
+</ol>
+
+<p>At this point, a root shell is presented with the root filesystem mounted in read-only mode on <code class="language-plaintext highlighter-rouge">/sysroot</code>.</p>
+
+<p>We will need to remount it with write privileges:</p>
+<ul>
+  <li>Remount <code class="language-plaintext highlighter-rouge">/sysroot</code>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mount -oremount,rw /sysroot
+</code></pre></div>    </div>
+  </li>
+  <li>Switch to chroot jail:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># chroot /sysroot
+</code></pre></div>    </div>
+  </li>
+  <li>Change the password for the user in which we have outdated credentials:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># passwd &lt;username&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>If you are using SElinux, you should consider re-labeling all files before continuing the boot process. This part can be skipped if you are not utilizing SElinux:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># touch /.autorelabel
+</code></pre></div>    </div>
+  </li>
+  <li>Exit twice and the system will cleanly boot from the point we interrupted it.</li>
+</ul>
+
+<h1 id="reviewing-logs-from-previous-boots">Reviewing Logs from Previous Boots</h1>
+<hr />
+<p>It can be useful to view logs of previous failed boot attempts. If the journald logs have been made persistent (normally stored in memory and released on boot) this can be done with the <code class="language-plaintext highlighter-rouge">journalctl</code> tool. Follow these steps if you need to setup persistent boot logging.</p>
+
+<p>As root, create the log file for this information to be stored:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mkdir -p 2775 /var/log/journal &amp;&amp; chown :systemd-journal /var/log/journal
+
+# systemctl restart systemd-journald
+</code></pre></div></div>
+
+<p>To inspect the logs of a previous boot, use the <code class="language-plaintext highlighter-rouge">-b</code> option with <code class="language-plaintext highlighter-rouge">journalctl</code>. Without any arguments, <code class="language-plaintext highlighter-rouge">-b</code> will filter output only to messages pertaining to the last boot. A negative number to this argument will filter on previous boots.</p>
+
+<p>For example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># journalctl -b-1 -p err
+</code></pre></div></div>
+<p>This will show you the error logs from the boot that occurred before the most recent. You should change the numerical value to reflect the system boot you need to view.</p>
+
+<h1 id="repairing-disk-and-filesystem-errors">Repairing Disk and Filesystem Errors</h1>
+<hr />
+
+<p>One of the most common boot time errors is a misconfigured <code class="language-plaintext highlighter-rouge">/etc/fstab</code> file. You <strong>cannot</strong> use the <code class="language-plaintext highlighter-rouge">rescue.target</code> to fix an <code class="language-plaintext highlighter-rouge">/etc/fstab</code> error. Most of these issues will require us to use the <code class="language-plaintext highlighter-rouge">emergency.target</code> since the rescue target requires a more functional system.</p>
+
+<p>The following are examples of problems that require the <code class="language-plaintext highlighter-rouge">emergency.target</code>:</p>
+
+<ul>
+  <li>Corrupt file system.</li>
+  <li>Non-existent UUID in <code class="language-plaintext highlighter-rouge">/etc/fstab</code>.</li>
+  <li>Non-existent mount point in <code class="language-plaintext highlighter-rouge">/etc/fstab</code>.</li>
+  <li>Incorrect mount option in <code class="language-plaintext highlighter-rouge">/etc/fstab</code>.</li>
+</ul>
+
+<blockquote>
+  <p>Important: After editing the <code class="language-plaintext highlighter-rouge">/etc/fstab</code> file in emergency mode, you must run the following for safety measures:</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># systemctl daemon-reload
+</code></pre></div>  </div>
+</blockquote>
+
+<h4 id="example">Example:</h4>
+<p>We are going to boot into emergency mode to remove a false entry in /etc/fstab.</p>
+
+<ol>
+  <li>
+    <p>Interrupt the grub2 menu by pressing “e” to edit when prompted with the grub menu.</p>
+  </li>
+  <li>Find the line that specifies the kernel version (vmlinuz) and append the following to it:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemd.unit=emergency.target
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Press “ctrl+x” to boot.</p>
+  </li>
+  <li>
+    <p>You will be prompted with the root password to continue.</p>
+  </li>
+  <li>Remount <code class="language-plaintext highlighter-rouge">/</code> so that we can make changes to the fstab file:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mount -oremount,rw /
+</code></pre></div>    </div>
+  </li>
+  <li>We can use the mount command to see which entry is causing the error:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mount -a
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Remove the offending entry from the <code class="language-plaintext highlighter-rouge">/etc/fstab</code> file.</p>
+  </li>
+  <li>
+    <p>Use <code class="language-plaintext highlighter-rouge">mount -a</code> again to make sure the error has been resolved.</p>
+  </li>
+  <li>Use <code class="language-plaintext highlighter-rouge">systemctl daemon-reload</code> as I mentioned earlier to reload all unit files, and recreate the entire dependency tree.</li>
+</ol>
+
+<p>Once you exit the emergency shell, the system will finish booting from the emergency target, you will then be able to continue as usual from that point. This example was just used to show you the process of using the emergency target to make persistent changes to files on the system.</p>
+
+<h1 id="boot-loader-issues-with-grub2">Boot Loader Issues with GRUB2</h1>
+<hr />
+<p>The <code class="language-plaintext highlighter-rouge">/boot/grub2/grub.cfg</code> file is the main configuration file. <strong>DO NOT</strong> ever edit this file manually. Instead, use <code class="language-plaintext highlighter-rouge">grub2-mkconfig</code> to generate the new grub2 config using a set of different configuration files and the list of the installed kernels. The <code class="language-plaintext highlighter-rouge">grub2-mkconfig</code> command will look at <code class="language-plaintext highlighter-rouge">/etc/default/grub</code> for options such as the default menu timeout and kernel command line to use, then use a set of scripts in <code class="language-plaintext highlighter-rouge">/etc/grub.d/</code> to generate the resulting configuration file.</p>
+
+<p>Here is an textual diagram of this relationship:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/boot/grub2/grub.cfg
+               |
+               |__________________
+               |                  |
+         /etc/default/grub         /etc/grub.d/*
+</code></pre></div></div>
+
+<blockquote>
+  <p>Important: To edit the main grub.cfg file, you will need to make the desired changes to <code class="language-plaintext highlighter-rouge">/etc/default/grub</code> and to files in <code class="language-plaintext highlighter-rouge">/etc/grub.d/</code> and then create a new grub.cfg by running:</p>
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># grub2-mkconfig &gt; /boot/grub2/grub.cfg
+</code></pre></div>  </div>
+</blockquote>
+
+<h1 id="troubleshooting-grub">Troubleshooting GRUB</h1>
+<hr />
+<p>It is important to understand the syntax of the <code class="language-plaintext highlighter-rouge">/boot/grub2/grub.cfg</code> file before troubleshooting.</p>
+
+<ul>
+  <li>
+    <p>First, bootable entries are encoded inside ‘menuentry’ blocks. In these blocks, linux16 and initrd16 lines point to the kernel to be loaded from disk (along with the kernel command line) and the initramfs to be loaded. During interactive editing at boot, tab is used to find these lines.</p>
+  </li>
+  <li>
+    <p>The “set root” lines inside those blocks do not point to the root file system for the RHEL/CentOS 7 system, but instead point to the file system from which grub2 should load the kernel and initramfs files. The syntax is <em>harddrive.partition</em> where <code class="language-plaintext highlighter-rouge">hd0</code> is the first hard drive in the system and <code class="language-plaintext highlighter-rouge">hd1</code> is the second. The partitions are indicated as msdos1 for the first MBR partition or gpt1 for the first GPT partition.</p>
+  </li>
+</ul>
+
+<h4 id="example-from-bootgrub2grubcfg">Example from <code class="language-plaintext highlighter-rouge">/boot/grub2/grub.cfg</code>:</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">### BEGIN /etc/grub.d/10_linux ###</span>
+menuentry <span class="s1">'CentOS Linux (3.10.0-514.26.2.el7.x86_64) 7 (Core)'</span> <span class="nt">--class</span> centos <span class="nt">--class</span> gnu-linux <span class="nt">--class</span> gnu <span class="nt">--class</span> os <span class="nt">--unrestricted</span> <span class="nv">$menuentry_id_option</span> <span class="s1">'gnulinux-3.10.0-514.el7.x86_64-advanced-a2531d12-46f8-4a0f-8a5c-b48d6ef71275'</span> <span class="o">{</span>
+    load_video
+    <span class="nb">set </span><span class="nv">gfxpayload</span><span class="o">=</span>keep
+    insmod gzio
+    insmod part_msdos
+    insmod ext2
+
+    <span class="nb">set </span><span class="nv">root</span><span class="o">=</span><span class="s1">'hd0,msdos1'</span>
+    <span class="k">if</span> <span class="o">[</span> x<span class="nv">$feature_platform_search_hint</span> <span class="o">=</span> xy <span class="o">]</span><span class="p">;</span> <span class="k">then
+      </span>search <span class="nt">--no-floppy</span> <span class="nt">--fs-uuid</span> <span class="nt">--set</span><span class="o">=</span>root <span class="nt">--hint</span><span class="o">=</span><span class="s1">'hd0,msdos1'</span>  123455ae-46f8-4a0f-8a5c-b48d6ef71275
+    <span class="k">else
+      </span>search <span class="nt">--no-floppy</span> <span class="nt">--fs-uuid</span> <span class="nt">--set</span><span class="o">=</span>root 123455ae-46f8-4a0f-8a5c-b48d6ef71275
+    <span class="k">fi</span>
+    &lt;redacted&gt;
+</code></pre></div></div>
+
+<p>If you need to re-install the bootloader on a device, use the following command:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># grub2-install &lt;device&gt;
+</code></pre></div></div>
+
+<h1 id="fixing-a-broken-grub-installation">Fixing a Broken GRUB Installation</h1>
+<hr />
+<p>For cases when the system will not boot after reaching the grub2 menu.</p>
+
+<ul>
+  <li>
+    <p>You should start by editing the grub menu and searching for syntax errors. If you find one, correct it and get into the system to make persistent changes to fix the problem.</p>
+  </li>
+  <li>
+    <p>If you cannot find any errors, refer to the above section where we boot into the emergency target. You will need to remount root (/) again.</p>
+  </li>
+  <li>View the current grub2 configuration with the following command:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># grub2-mkconfig
+</code></pre></div>    </div>
+  </li>
+  <li>If you do not see any errors, its likely that someone edited the <code class="language-plaintext highlighter-rouge">/boot/grub2/grub.cfg</code> file. Again, <strong>do not modify this file</strong>. Rebuild the config with the following command:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># grub2-mkconfig &gt; /boot/grub2/grub.cfg
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Once you have rebuilt the grub config, you should be able to reboot without having any issues.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>I hope this has been helpful in some way. If you enjoyed this, please consider bookmarking my technical blog as I plan to regularly add new documentation, troubleshooting tips, stories, and more along the way. Have a great rest of your day.</p>
+
+<p>Cheers!</p>
+
+<p>Jason</p>
+</div>
+      </section>
+      <footer>
+  <p>&copy; 1947 - 2023 | Jason Hensley</p>
+</footer>
+
+    </main>
+    <section id="category-modal-bg"></section>
+<section id="category-modal">
+  <h1 id="category-modal-title"></h1>
+  <section id="category-modal-content"></section>
+</section>
+
+  </body>
+</html>
