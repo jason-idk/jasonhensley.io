@@ -24,3 +24,6 @@ defaults:
       layout: "post"
       permalink: /posts/:title/
 exclude: ["sitemap.xml", "feed.xml", "LICENSE", "README.md"]
+
+url: https://blog.jasonhensley.io
+baseurl: /
