@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Jekyll Markdown Reference
-date: 2021-11-04
+date: 2023-10-06
 categories: ["jekyll", "documentation", "markdown"]
 ---
 

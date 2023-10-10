@@ -1,4 +1,169 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-06T14:41:06-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jason Hensley</title><author><name>Jason Hensley</name><email>blog@jxh.pw</email></author><entry><title type="html">CentOS/RHEL 7 Boot Process Overview and Troubleshooting</title><link href="http://localhost:4000/posts/rhel_7_boot_process/" rel="alternate" type="text/html" title="CentOS/RHEL 7 Boot Process Overview and Troubleshooting" /><published>2023-10-06T00:00:00-05:00</published><updated>2023-10-06T00:00:00-05:00</updated><id>http://localhost:4000/posts/rhel_7_boot_process</id><content type="html" xml:base="http://localhost:4000/posts/rhel_7_boot_process/"><![CDATA[<p>In this article, we will go over the boot process for CentOS/RHEL 7 systems, sharing some troubleshooting tips along the way. When I initially wrote this article, this was a fairly new change and one I felt that others could benefit from reading.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-10T13:29:08-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Jason Hensley</title><author><name>Jason Hensley</name><email>blog@jasonhensley.io</email></author><entry><title type="html">Jekyll Markdown Reference</title><link href="http://localhost:4000/posts/syntax_ref/" rel="alternate" type="text/html" title="Jekyll Markdown Reference" /><published>2023-10-06T00:00:00-05:00</published><updated>2023-10-06T00:00:00-05:00</updated><id>http://localhost:4000/posts/syntax_ref</id><content type="html" xml:base="http://localhost:4000/posts/syntax_ref/"><![CDATA[<p>Text can be <strong>bold</strong>, <em>italic</em>, <del>strikethrough</del> or <code class="language-plaintext highlighter-rouge">keyword</code></p>
+
+<p><a href="./another-page.html">Link to another page</a>.</p>
+
+<p>There should be whitespace between paragraphs.</p>
+
+<p>There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.</p>
+
+<h4 id="image">Image</h4>
+
+<p>Images can be clicked to enlarge :)</p>
+
+<p><img src="https://picsum.photos/1366/768" alt="Dummy Image 1" />
+<img src="https://picsum.photos/1200/400" alt="Dummy Image 2" /></p>
+
+<h1 id="header-1">Header 1</h1>
+
+<p>This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.</p>
+
+<h2 id="header-2">Header 2</h2>
+
+<blockquote>
+  <p>This is a blockquote following a header.</p>
+
+  <p>When something is important enough, you do it even if the odds are not in your favor.</p>
+</blockquote>
+
+<h3 id="header-3">Header 3</h3>
+
+<blockquote>
+  <p>This is another blockquote following header 3</p>
+</blockquote>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Javascript code with syntax highlighting.</span>
+<span class="kd">var</span> <span class="nx">fun</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">lang</span><span class="p">(</span><span class="nx">l</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">dateformat</span><span class="p">.</span><span class="nx">i18n</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">./lang/</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">l</span><span class="p">);</span>
+  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ruby code with syntax highlighting</span>
+<span class="no">GitHubPages</span><span class="o">::</span><span class="no">Dependencies</span><span class="p">.</span><span class="nf">gems</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">gem</span><span class="p">,</span> <span class="n">version</span><span class="o">|</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">add_dependency</span><span class="p">(</span><span class="n">gem</span><span class="p">,</span> <span class="s2">"= </span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<h4 id="header-4">Header 4</h4>
+
+<ul>
+  <li>This is an unordered list following a header.</li>
+  <li>This is an unordered list following a header.</li>
+  <li>This is an unordered list following a header.</li>
+</ul>
+
+<h5 id="header-5">Header 5</h5>
+
+<ol>
+  <li>This is an ordered list following a header.</li>
+  <li>This is an ordered list following a header.</li>
+  <li>This is an ordered list following a header.</li>
+</ol>
+
+<h6 id="header-6">Header 6</h6>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">head1</th>
+      <th style="text-align: left">head two</th>
+      <th style="text-align: left">three</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">ok</td>
+      <td style="text-align: left">good swedish fish</td>
+      <td style="text-align: left">nice</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">out of stock</td>
+      <td style="text-align: left">good and plenty</td>
+      <td style="text-align: left">nice</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ok</td>
+      <td style="text-align: left">good <code class="language-plaintext highlighter-rouge">oreos</code></td>
+      <td style="text-align: left">hmm</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ok</td>
+      <td style="text-align: left">good <code class="language-plaintext highlighter-rouge">zoute</code> drop</td>
+      <td style="text-align: left">yumm</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="theres-a-horizontal-rule-below-this">There’s a horizontal rule below this.</h3>
+
+<hr />
+
+<h3 id="here-is-an-unordered-list">Here is an unordered list:</h3>
+
+<ul>
+  <li>Item foo</li>
+  <li>Item bar</li>
+  <li>Item baz</li>
+  <li>Item zip</li>
+</ul>
+
+<h3 id="and-an-ordered-list">And an ordered list:</h3>
+
+<ol>
+  <li>Item one
+    <ol>
+      <li>Item one</li>
+      <li>Item two
+        <ol>
+          <li>Item one</li>
+          <li>Item two</li>
+          <li>Item three</li>
+        </ol>
+      </li>
+      <li>Item three</li>
+    </ol>
+  </li>
+  <li>Item four</li>
+  <li>Item two</li>
+  <li>Item three</li>
+  <li>Item four</li>
+</ol>
+
+<h3 id="and-a-nested-list">And a nested list:</h3>
+
+<ul>
+  <li>level 1 item
+    <ul>
+      <li>level 2 item</li>
+      <li>level 2 item
+        <ul>
+          <li>level 3 item</li>
+          <li>level 3 item</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>level 1 item
+    <ul>
+      <li>level 2 item</li>
+      <li>level 2 item</li>
+      <li>level 2 item</li>
+    </ul>
+  </li>
+  <li>level 1 item
+    <ul>
+      <li>level 2 item</li>
+      <li>level 2 item</li>
+    </ul>
+  </li>
+  <li>level 1 item</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long.
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The final element.
+</code></pre></div></div>]]></content><author><name>Jason Hensley</name><email>blog@jasonhensley.io</email></author><category term="jekyll" /><category term="documentation" /><category term="markdown" /><summary type="html"><![CDATA[Text can be bold, italic, strikethrough or keyword]]></summary></entry><entry><title type="html">CentOS/RHEL 7 Boot Process Overview and Troubleshooting</title><link href="http://localhost:4000/posts/rhel_7_boot_process/" rel="alternate" type="text/html" title="CentOS/RHEL 7 Boot Process Overview and Troubleshooting" /><published>2023-10-06T00:00:00-05:00</published><updated>2023-10-06T00:00:00-05:00</updated><id>http://localhost:4000/posts/rhel_7_boot_process</id><content type="html" xml:base="http://localhost:4000/posts/rhel_7_boot_process/"><![CDATA[<p>In this article, we will go over the boot process for CentOS/RHEL 7 systems, sharing some troubleshooting tips along the way. When I initially wrote this article, this was a fairly new change and one I felt that others could benefit from reading.</p>
 
 <p>In 2017 shared this with <a href="https://www.vultr.com/docs/centos-7-and-rhel-7-boot-process-overview-and-troubleshooting/">Vultr</a> for them to publish on their documentation site in the hopes that it would be useful to someone, so with this still in mind, I have decided to publish on my personal blog as well.</p>
 
@@ -258,169 +423,164 @@ menuentry <span class="s1">'CentOS Linux (3.10.0-514.26.2.el7.x86_64) 7 (Core)'<
 
 <p>Cheers!</p>
 
-<p>Jason</p>]]></content><author><name>Jason Hensley</name><email>blog@jxh.pw</email></author><category term="documentation" /><category term="linux" /><category term="guide" /><category term="troubleshooting" /><summary type="html"><![CDATA[In this article, we will go over the boot process for CentOS/RHEL 7 systems, sharing some troubleshooting tips along the way. When I initially wrote this article, this was a fairly new change and one I felt that others could benefit from reading.]]></summary></entry><entry><title type="html">Jekyll Markdown Reference</title><link href="http://localhost:4000/posts/syntax_ref/" rel="alternate" type="text/html" title="Jekyll Markdown Reference" /><published>2021-11-04T00:00:00-05:00</published><updated>2021-11-04T00:00:00-05:00</updated><id>http://localhost:4000/posts/syntax_ref</id><content type="html" xml:base="http://localhost:4000/posts/syntax_ref/"><![CDATA[<p>Text can be <strong>bold</strong>, <em>italic</em>, <del>strikethrough</del> or <code class="language-plaintext highlighter-rouge">keyword</code></p>
+<p>Jason</p>]]></content><author><name>Jason Hensley</name><email>blog@jasonhensley.io</email></author><category term="documentation" /><category term="linux" /><category term="guide" /><category term="troubleshooting" /><summary type="html"><![CDATA[In this article, we will go over the boot process for CentOS/RHEL 7 systems, sharing some troubleshooting tips along the way. When I initially wrote this article, this was a fairly new change and one I felt that others could benefit from reading.]]></summary></entry><entry><title type="html">Introduction</title><link href="http://localhost:4000/posts/about_me/" rel="alternate" type="text/html" title="Introduction" /><published>2023-10-05T00:00:00-05:00</published><updated>2023-10-05T00:00:00-05:00</updated><id>http://localhost:4000/posts/about_me</id><content type="html" xml:base="http://localhost:4000/posts/about_me/"><![CDATA[<p>Hello 👋, my name is Jason Hensley. I live in TX with my loving wife Ellen, our dog Tucker, and a whole lot of projects I will eventually get to work on one day. 🙂 (Hopefully some that I will get to share with you here.)</p>
 
-<p><a href="./another-page.html">Link to another page</a>.</p>
+<p>I have been working in the IT industry since I was 19 years old where I was fortunate enough to get my start as a Unix/Linux Systems Administrator working for a Telecom provider called XO Communications.</p>
 
-<p>There should be whitespace between paragraphs.</p>
+<p>I have held several titles since then, worked in different sectors, and met some truly amazing people along the way. If you want to know more about my professional experience, I have a page dedicated to this <a href="/all_collections/_posts/2023-10-07-resume.md">here</a>.</p>
 
-<p>There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.</p>
-
-<h4 id="image">Image</h4>
-
-<p>Images can be clicked to enlarge :)</p>
-
-<p><img src="https://picsum.photos/1366/768" alt="Dummy Image 1" />
-<img src="https://picsum.photos/1200/400" alt="Dummy Image 2" /></p>
-
-<h1 id="header-1">Header 1</h1>
-
-<p>This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.</p>
-
-<h2 id="header-2">Header 2</h2>
-
+<p><img src="/screenshots/je_db.jpg" alt="Jason &amp; Ellen Dillon Beach, CA" /></p>
 <blockquote>
-  <p>This is a blockquote following a header.</p>
-
-  <p>When something is important enough, you do it even if the odds are not in your favor.</p>
+  <p>Jason &amp; Ellen Hensley @ Dillon Beach, CA 2023</p>
 </blockquote>
 
-<h3 id="header-3">Header 3</h3>
+<h2 id="plans">Plans</h2>
+<p>Some of the content you can expect to find here:</p>
 
+<ul>
+  <li>Technical documentation</li>
+  <li>Tutorials &amp; demonstrations</li>
+  <li>Project overviews</li>
+  <li>Reflections &amp; lessons learned</li>
+</ul>
+
+<p>This could change over time, but my goal is to regularly add content and share what I have learned in the hopes that it can be of use to others.</p>
+
+<h2 id="interests--hobbies">Interests &amp; Hobbies</h2>
+<p>Some interests I have outside of work…</p>
+
+<h5 id="buildingmodding-gameboys">Building/modding GameBoy’s</h5>
+<p>Look, I really don’t understand why I find this so enjoyable, I just do… I am going to completely blame my little brother <a href="https://jacobhensley.dev">Jacob</a> for getting me into this hobby. I secretly enjoy the building/tinkering/modding more than I do actually playing games on them (I have admittetly lost some hours to Tetris, though.)</p>
+
+<p>Here are a couple I have modded so far:</p>
+
+<p><img src="/screenshots/gbp_white.jpg" alt="GameBoy Pocket" /></p>
 <blockquote>
-  <p>This is another blockquote following header 3</p>
+  <p>^ GameBoy Pocket</p>
 </blockquote>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Javascript code with syntax highlighting.</span>
-<span class="kd">var</span> <span class="nx">fun</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">lang</span><span class="p">(</span><span class="nx">l</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">dateformat</span><span class="p">.</span><span class="nx">i18n</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">./lang/</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">l</span><span class="p">);</span>
-  <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></div></div>
+<p><img src="/screenshots/gba_unhinged.jpg" alt="GameBoy Advance SP - Unhinged" /></p>
+<blockquote>
+  <p>^ GameBoy Advance SP - Unhinged</p>
+</blockquote>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ruby code with syntax highlighting</span>
-<span class="no">GitHubPages</span><span class="o">::</span><span class="no">Dependencies</span><span class="p">.</span><span class="nf">gems</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">gem</span><span class="p">,</span> <span class="n">version</span><span class="o">|</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">add_dependency</span><span class="p">(</span><span class="n">gem</span><span class="p">,</span> <span class="s2">"= </span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></div></div>
+<h4 id="skateboarding">Skateboarding</h4>
 
-<h4 id="header-4">Header 4</h4>
+<p>I have been skateboarding 🛹 since I was 12 years old, so at the time of writing this, 18 years now. Though I have taken a couple of breaks here and there its something I plan on continuing to do in some capacity until I physically can’t anymore.</p>
 
+<p>There is something ther​a​peu​tic about it that I can’t seem to find in anything else. I have learned alot about myself through skateboarding as well as the world around me. One of my good friends <a href="https://www.ericjkuhns.com/">Eric</a> has a <a href="https://youtu.be/8iOpff_LtOA?si=59BqGW6BLsaUOO3X">video</a> about how skateboarding has impacted others throughout their professional life.</p>
+
+<p>I think the most silence I have experienced in life has been while on my skateboard.</p>]]></content><author><name>Jason Hensley</name><email>blog@jasonhensley.io</email></author><category term="introduction" /><category term="about" /><category term="resume" /><category term="contact" /><summary type="html"><![CDATA[Hello 👋, my name is Jason Hensley. I live in TX with my loving wife Ellen, our dog Tucker, and a whole lot of projects I will eventually get to work on one day. 🙂 (Hopefully some that I will get to share with you here.)]]></summary></entry><entry><title type="html">Technical History</title><link href="http://localhost:4000/posts/resume/" rel="alternate" type="text/html" title="Technical History" /><published>2023-10-05T00:00:00-05:00</published><updated>2023-10-05T00:00:00-05:00</updated><id>http://localhost:4000/posts/resume</id><content type="html" xml:base="http://localhost:4000/posts/resume/"><![CDATA[<h1 id="jason-hensley">Jason Hensley</h1>
 <ul>
-  <li>This is an unordered list following a header.</li>
-  <li>This is an unordered list following a header.</li>
-  <li>This is an unordered list following a header.</li>
+  <li><a href="mailto:mail@jasonhensley.io">mail@jasonhensley.io</a></li>
+  <li>Github: <a href="https://github.com/jason-idk">jason-idk</a></li>
+  <li>Remote, TX</li>
 </ul>
 
-<h5 id="header-5">Header 5</h5>
+<p>Principal Site Reliability Engineer</p>
 
-<ol>
-  <li>This is an ordered list following a header.</li>
-  <li>This is an ordered list following a header.</li>
-  <li>This is an ordered list following a header.</li>
-</ol>
+<h2 id="experience">Experience</h2>
 
-<h6 id="header-6">Header 6</h6>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left">head1</th>
-      <th style="text-align: left">head two</th>
-      <th style="text-align: left">three</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">ok</td>
-      <td style="text-align: left">good swedish fish</td>
-      <td style="text-align: left">nice</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">out of stock</td>
-      <td style="text-align: left">good and plenty</td>
-      <td style="text-align: left">nice</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ok</td>
-      <td style="text-align: left">good <code class="language-plaintext highlighter-rouge">oreos</code></td>
-      <td style="text-align: left">hmm</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">ok</td>
-      <td style="text-align: left">good <code class="language-plaintext highlighter-rouge">zoute</code> drop</td>
-      <td style="text-align: left">yumm</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="theres-a-horizontal-rule-below-this">There’s a horizontal rule below this.</h3>
-
-<hr />
-
-<h3 id="here-is-an-unordered-list">Here is an unordered list:</h3>
-
+<h3 id="principal-site-reliability-engineer-dell-technologies--july-2019--current"><span>Principal Site Reliability Engineer, Dell Technologies</span> | <span>July 2019 – Current</span></h3>
 <ul>
-  <li>Item foo</li>
-  <li>Item bar</li>
-  <li>Item baz</li>
-  <li>Item zip</li>
+  <li>Led initiative to deliver on-premises hybrid Kubernetes clusters through automation, saving cost and providing secure environment to run sensitive CI/CD pipelines with steps such as code-signing and security scanning.</li>
+  <li>Served as Team Lead for Dell Web Services platform, adding multi-regional support for the project driving success and performance in DevOps environment.</li>
+  <li>Conducted cost analyses and provided optimization recommendations, resulting in significant savings.</li>
+  <li>Enhanced infrastructure stability through monitoring, anomaly detection, and service hotfix implementation.</li>
+  <li>Designed and implemented scalable solutions to complex problems.</li>
+  <li>Improved stability of build systems and reduced CI/CD pipeline failures across organization.</li>
+  <li>Authored and expanded on multiple shared CI/CD libraries shared across organization.</li>
+  <li>Designed Incident Management/Response process that was successfully adopted by team.</li>
 </ul>
 
-<h3 id="and-an-ordered-list">And an ordered list:</h3>
-
-<ol>
-  <li>Item one
-    <ol>
-      <li>Item one</li>
-      <li>Item two
-        <ol>
-          <li>Item one</li>
-          <li>Item two</li>
-          <li>Item three</li>
-        </ol>
-      </li>
-      <li>Item three</li>
-    </ol>
-  </li>
-  <li>Item four</li>
-  <li>Item two</li>
-  <li>Item three</li>
-  <li>Item four</li>
-</ol>
-
-<h3 id="and-a-nested-list">And a nested list:</h3>
-
+<h3 id="enterprise-systems-engineer-armor-cloud-security---aug-2017--july-2019"><span>Enterprise Systems Engineer, Armor Cloud Security</span> <span> | Aug 2017 – July 2019</span></h3>
 <ul>
-  <li>level 1 item
-    <ul>
-      <li>level 2 item</li>
-      <li>level 2 item
-        <ul>
-          <li>level 3 item</li>
-          <li>level 3 item</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>level 1 item
-    <ul>
-      <li>level 2 item</li>
-      <li>level 2 item</li>
-      <li>level 2 item</li>
-    </ul>
-  </li>
-  <li>level 1 item
-    <ul>
-      <li>level 2 item</li>
-      <li>level 2 item</li>
-    </ul>
-  </li>
-  <li>level 1 item</li>
+  <li>Serve as escalation point from all other tiers of support.</li>
+  <li>Effectively perform deep-level troubleshooting and analysis on complex Linux systems to
+simulate a problem or arrive at a resolution on critical customer account systems.</li>
+  <li>Advise and consult on architecture and engineering issues and approaches for enterprise
+customer environments.</li>
+  <li>Build/Maintain runbooks and create networking diagrams as needed for enterprise customer
+environments.</li>
+  <li>Own account relationship and work with team to support millions in revenue.</li>
+  <li>Attend cadence calls with account managers to identify customer needs on a regular basis.</li>
+  <li>Perform root cause analysis on recurring issues as well as service outages.</li>
+  <li>Identify security risks and mitigate active attacks. Work with Security team to hand-off
+compromised systems. Provide server hardening recommendations proactively to clients.</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long.
-</code></pre></div></div>
+<h3 id="sr-linux-systems-engineer-armor-cloud-security---march-2017--aug-2017"><span>Sr Linux Systems Engineer, Armor Cloud Security</span> <span> | March 2017 – Aug 2017</span></h3>
+<ul>
+  <li>Effectively perform deep-level troubleshooting and analysis on complex Linux systems to
+simulate a problem or arrive at a resolution.</li>
+  <li>Advise and consult on architecture and engineering requests.</li>
+  <li>Perform root cause analysis on recurring issues as well as service outages.</li>
+  <li>Advise on clustering and replication improvements and strategy.</li>
+  <li>Perform SQL/database/instance tuning.</li>
+  <li>Continually identify efficiencies for systems, processes and procedures.</li>
+  <li>Develop automation tools to make work faster and more accurate.</li>
+  <li>Troubleshoot complex hardware and software issues.</li>
+  <li>Mentor and guide engineers, serving as a point of escalation when needed.</li>
+  <li>Identify security risks and mitigate active attacks. Work with Security team to identify and hand-off compromised systems. Provide server hardening recommendations proactively to clients.</li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The final element.
-</code></pre></div></div>]]></content><author><name>Jason Hensley</name><email>blog@jxh.pw</email></author><category term="jekyll" /><category term="documentation" /><category term="markdown" /><summary type="html"><![CDATA[Text can be bold, italic, strikethrough or keyword]]></summary></entry></feed>
+<h3 id="linux-systems-engineer-armor-cloud-security---may-2016--march-2017"><span>Linux Systems Engineer, Armor Cloud Security</span> <span> | May 2016 – March 2017</span></h3>
+<ul>
+  <li>Serves as escalation from Level I</li>
+  <li>Effectively perform deep-level troubleshooting and analysis on complex Linux systems to
+simulate a problem or arrive at a resolution.</li>
+  <li>Perform root cause analysis on recurring issues.</li>
+  <li>Advise on clustering and replication improvements and strategy.</li>
+  <li>Perform SQL/database/instance tuning as needed.</li>
+  <li>Perform website and application migrations on new and existing cloud servers.</li>
+  <li>Resolve technical and logical support inquiries via phone, chat, and stories.</li>
+  <li>Continually identify efficiencies for systems, processes and procedures.</li>
+  <li>Script automation tools to make work faster and more accurate.</li>
+  <li>Mentor and guide the L1 engineers serving as an informal point of escalation as and when
+needed.</li>
+  <li>Complete assigned projects before deadline.</li>
+  <li>Identify security risks and mitigate active attacks. Work with Security team to hand-off
+compromised systems.</li>
+</ul>
+
+<h3 id="unixlinux-systems-administrator-xo-communications---sep-2013--may-2016"><span>Unix/Linux Systems Administrator, XO Communications</span> <span> | Sep 2013 – May 2016</span></h3>
+
+<h2 id="projects">Projects</h2>
+
+<h4 id="on-premises-kubernetes-automation--november-2019---present"><span>On-premises Kubernetes Automation</span> <span>| November 2019 - Present</span></h4>
+
+<ul>
+  <li>Created automation for running hybrid OS Kubernetes clusters (Windows/Linux) on-premises.</li>
+  <li>Helped to identify &amp; fix bugs upstream, contributing to open source.</li>
+  <li>Created an environment within company network to run CI/CD builds with sensitive stages, such as code signing within secure network.</li>
+  <li>Environment deployed through CI/CD pipeline, using automation and shared jenkins libraries.</li>
+  <li>Created Incident Management process called SWARM that was effectively adopted</li>
+</ul>
+
+<h2 id="education--certifications">Education &amp; Certifications</h2>
+<ul>
+  <li>VMWare Certified Professional 6.5</li>
+  <li>ITIL Foundation Certificate in IT Service Management</li>
+  <li>Linux Security and Hardening Essential Training (CompTIA Authorized Partner - LinkedIn)</li>
+  <li>AWS Cloud Practitioner</li>
+  <li>RH134 - Red Hat Systems Administration II</li>
+  <li>RH254 - Red Hat Systems Administration III</li>
+  <li>RH236 - Red Hat Gluster Storage Administration</li>
+  <li>RH413 - Red Hat Server Hardening</li>
+  <li>RH436 - Red Hat High Availability Clustering</li>
+  <li>RH422 - Red Hat Enterprise Performance Tuning</li>
+</ul>
+
+<h2 id="skills">Skills</h2>
+
+<p><strong>Core SRE Skills:</strong> Bare Metal Kubernetes, Helm, Docker, ContainerD, Terraform, Packer, AWS CloudFormation, Security Scanning, Istio, Knative, ArgoCD, Quarkus, MetalLB, Rancher, RKE2, AKS, EKS, Velero, NGINX, WireGuard, KeyCloak, Linux, Unix</p>
+
+<p><strong>Programming &amp; Scripting:</strong> Bash/Shell, Powershell, Minimal Groovy &amp; Python, Infrastructure as Code</p>
+
+<p><strong>Cloud:</strong> VMWare, AWS, Azure, KVM</p>
+
+<p><strong>CI/CD:</strong> Jenkins, GitHub Actions, GitLab CI, Tekton</p>
+
+<p><strong>Cross-functional Skills:</strong> Infrastructure monitoring, Virtualization, Automation, Cost Optimization, Contribute to Open Source</p>
+
+<p><strong>Problem Solving:</strong> Troubleshooting, Debugging, Observability, Performance Tuning, Research &amp; Analysis, Decision Making, Incident Response</p>]]></content><author><name>Jason Hensley</name><email>blog@jasonhensley.io</email></author><category term="introduction" /><category term="about" /><category term="resume" /><category term="contact" /><summary type="html"><![CDATA[Jason Hensley mail@jasonhensley.io Github: jason-idk Remote, TX]]></summary></entry></feed>
